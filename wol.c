@@ -2,9 +2,10 @@
 
 cl /nologo /W3 /O2 /D "NDEBUG" /D "WIN32" /D "_CONSOLE" /D "_X86_" /link wsock32.lib wol.c
 
-Must configure nic to accept magic package and setup power profile to allow
-wake on lan from nic.
+Must configure nic to accept magic package and setup power profile to allow wake on lan from nic.
 Not for WiFi.
+
+Based on tutorial from https://shadesfgray.wordpress.com/2010/12/17/wake-on-lan-how-to-tutorial/
 
 */
 #ifdef _WIN32
@@ -154,7 +155,7 @@ int main(int argc, char **argv)
 
 		bind(udpSocket, (struct sockaddr*)&udpClient, sizeof(udpClient));
 
-		/** …make the packet as shown above **/
+		/** â€¦make the packet as shown above **/
 
 		/** set server end point (the broadcast addres)**/
 		udpServer.sin_family = AF_INET;
