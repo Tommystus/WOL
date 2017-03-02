@@ -1,6 +1,6 @@
-/* Compile on Windows:
-
-cl /nologo /W3 /O2 /D "NDEBUG" /D "WIN32" /D "_CONSOLE" /D "_X86_" /link wsock32.lib wol.c
+/* Compile:
+MS:  cl /nologo /W3 /O2 /D "NDEBUG" /D "WIN32" /D "_CONSOLE" /D "_X86_" /link wsock32.lib wol.c
+Linux: gcc wol.c -o wol
 
 Must configure nic to accept magic package and setup power profile to allow wake on lan from nic.
 Not for WiFi.
@@ -49,7 +49,7 @@ static int checkError( char *szMsg)
 		return 0;
 	}
 #else
-	perror(e);
+	perror(szMsg);
 	if ((errno == EINTR) || (errno = EWOULDBLOCK) || (errno == EINPROGRESS))
 		return 1;
 	else
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	{
 		char *cp = &argv[1][i*3];
 		mac[i] = 0x00;
-		sscanf(cp,"%2X", &mac[i]);
+		sscanf(cp,"%2X", (unsigned int *) &mac[i]);
 	}
 	if (argc > 2)	// validate before sent
 	{
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 
 		bind(udpSocket, (struct sockaddr*)&udpClient, sizeof(udpClient));
 
-		/** …make the packet as shown above **/
+		/** make the packet as shown above **/
 
 		/** set server end point (the broadcast addres)**/
 		udpServer.sin_family = AF_INET;
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
 		udpServer.sin_port = htons(9);
 
 		/** send the packet **/
-		rv = sendto(udpSocket, tosend, sizeof(unsigned char) * 102, 0, (struct sockaddr*)&udpServer, sizeof(udpServer));
+		rv = sendto(udpSocket, tosend, sizeof(unsigned char) * sizeof(tosend), 0, (struct sockaddr*)&udpServer, sizeof(udpServer));
 		if (argc > 2) printf( "Sent %d bytes\n", rv);
 	}
 
@@ -172,4 +172,3 @@ int main(int argc, char **argv)
 #endif
 	return 0;
 }
-
