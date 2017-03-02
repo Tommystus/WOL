@@ -4,6 +4,7 @@ Linux: gcc wol.c -o wol
 
 Must configure nic to accept magic package and setup power profile to allow wake on lan from nic.
 Not for WiFi.
+Mus update line 162 with your subnet
 
 Based on tutorial from https://shadesfgray.wordpress.com/2010/12/17/wake-on-lan-how-to-tutorial/
 
